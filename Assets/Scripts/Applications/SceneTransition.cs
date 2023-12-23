@@ -67,7 +67,9 @@ namespace unity1week202312.Common {
             await UniTask.WaitUntil(() => progress.isDone, cancellationToken: token);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene.ToString()));
             // TODO: 一時的に２つのMain Cameraが存在する状態があるwarnが. ゲーム全体でaudio listenerを用意するのが良さそう
-            await SceneManager.UnloadSceneAsync(_currentScene.ToString());
+            if (_currentScene != SceneName.Initialize) {
+                await SceneManager.UnloadSceneAsync(_currentScene.ToString());
+            }
 
             _currentScene = targetScene;
             RegiseterTransitions(targetScene, token);

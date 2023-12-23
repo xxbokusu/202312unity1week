@@ -2,10 +2,10 @@ using System.Threading;
 
 namespace unity1week202312.State
 {
-    public class TransitionConditionFactory
+    public class StateTransitionFactory
     {
         CancellationToken _token;
-        public TransitionConditionFactory(CancellationToken token)
+        public StateTransitionFactory(CancellationToken token)
         {
             _token = token;
         }

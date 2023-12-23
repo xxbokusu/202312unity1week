@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 24586733}
   - component: {fileID: 24586734}
   m_Layer: 0
-  m_Name: StateView
+  m_Name: RootLifeTimeScope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 24586731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd538977efad913419100a74b1c8a2f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 503b84bf6dc56a145afbb074db312362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
