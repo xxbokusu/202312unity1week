@@ -4,9 +4,9 @@ using Cysharp.Threading.Tasks;
 using System;
 
 namespace unity1week202312.State {
-    public class TransitionCondition : IDisposable {
+    public class StateTransition : IDisposable {
         CancellationToken _token;
-        public TransitionCondition(CancellationToken token) {
+        public StateTransition(CancellationToken token) {
             _token = token;
         }
 

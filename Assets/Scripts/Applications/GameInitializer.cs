@@ -5,20 +5,20 @@ using VContainer.Unity;
 namespace unity1week202312.State {
     public class GameInitializer : IInitializable
     {
-        ScenePresenter _scenePresenter;
         StateTransitionFactory _factory;
 
+        GameState _currentGameState;
+
         public GameInitializer(
-            StateTransitionFactory factory,
-            ScenePresenter scenePresenter
+            StateTransitionFactory factory
         ) {
             _factory = factory;
-            _scenePresenter = scenePresenter;
         }
 
         public void Initialize()
         {
-            _scenePresenter.SetSceneTransition(SceneName.Initialize);
+            _currentGameState = GameState.Initializing;
+            _factory.Create(_currentGameState);
         }
     }
 }
