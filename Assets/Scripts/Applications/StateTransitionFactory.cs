@@ -7,14 +7,14 @@ namespace unity1week202312.State
     public class StateTransitionFactory
     {
         CancellationToken _token;
-        ScenePresenter _scenePresenter;
+        SceneTransitionFactory _sceneTransitionFactory;
 
         public StateTransitionFactory(
             CancellationToken token,
-            ScenePresenter scenePresenter
+            SceneTransitionFactory sceneTransitionFactory
         ) {
             _token = token;
-            _scenePresenter = scenePresenter;
+            _sceneTransitionFactory = sceneTransitionFactory;
         }
 
         private readonly Dictionary<GameState, StateTransition> _stateTransitions = new()
@@ -29,7 +29,7 @@ namespace unity1week202312.State
         public StateTransition Create(GameState currentState)
         {
             if (currentState == GameState.Initializing) {
-                _scenePresenter.SetSceneTransition(SceneName.Initialize);
+                _sceneTransitionFactory.Create(SceneName.Initialize);
             }
             Debug.Util.Log($"Create StateTransition: {currentState}");
             return new StateTransition(_token);

@@ -8,10 +8,10 @@ namespace unity1week202312.Common {
         protected override void Configure(IContainerBuilder builder) {
             builder.RegisterEntryPoint<GameInitializer>();
 
-            ScenePresenter scenePresenter = new(this.GetCancellationTokenOnDestroy());
+            SceneTransitionFactory scenePresenter = new(this.GetCancellationTokenOnDestroy());
             StateTransitionFactory stateTransitionFactory = new(this.GetCancellationTokenOnDestroy(), scenePresenter);
 
-            builder.RegisterInstance(scenePresenter).As<ScenePresenter>();
+            builder.RegisterInstance(scenePresenter).As<SceneTransitionFactory>();
             builder.RegisterInstance(stateTransitionFactory).As<StateTransitionFactory>();
 
         }
