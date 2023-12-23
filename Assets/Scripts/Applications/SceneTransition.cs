@@ -66,7 +66,7 @@ namespace unity1week202312.Common {
 
             await UniTask.WaitUntil(() => progress.isDone, cancellationToken: token);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene.ToString()));
-            SceneManager.UnloadSceneAsync(_currentScene.ToString());
+            await SceneManager.UnloadSceneAsync(_currentScene.ToString());
 
             _currentScene = targetScene;
             RegiseterTransitions(targetScene, token);
