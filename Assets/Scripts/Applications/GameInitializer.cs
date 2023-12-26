@@ -13,12 +13,18 @@ namespace unity1week202312.State {
             StateTransitionFactory factory
         ) {
             _factory = factory;
+            _currentGameState = GameState.Initializing;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
-            _currentGameState = GameState.Initializing;
-            _factory.Create(_currentGameState);
+            while (true)
+            {
+                StateTransition transition = _factory.Create(_currentGameState);
+                await transition.Execute();
+                Debug.Util.Log($"StateTransition: {_currentGameState} -> {_factory._statePathDic[_currentGameState]}");
+                _currentGameState = _factory._statePathDic[_currentGameState];
+            }
         }
     }
 }
