@@ -19,6 +19,8 @@ namespace unity1week202312.State
         private CancellationToken _token;
         private readonly Dictionary<GameState, StateTransition> _stateTransitionDic;
 
+        private GameState _currentGameState;
+
         public StateTransitionFactory(
             CancellationToken token,
             SceneTransitionFactory sceneTransitionFactory
@@ -31,12 +33,22 @@ namespace unity1week202312.State
                 { GameState.MainPlaying, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.None, sceneTransitionFactory) },
                 { GameState.ResultShowing, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.BackTitleScene, sceneTransitionFactory) },
             };
+
+            _currentGameState = GameState.Initializing;
         }
 
-        public StateTransition Create(GameState currentState)
+        public async void WatchStateTransition(StateTransition transition)
         {
-            Debug.Util.Log($"Create StateTransition: {currentState}");
-            return _stateTransitionDic[currentState];
+            await transition.Execute();
+            _currentGameState = _statePathDic[_currentGameState];
+            WatchStateTransition(Create());
+        }
+
+
+        public StateTransition Create()
+        {
+            Debug.Util.Log($"Create StateTransition: {_currentGameState}");
+            return _stateTransitionDic[_currentGameState];
         }
     }
 }
