@@ -171,3 +171,4 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _playerViewPrefabData: {fileID: 11400000, guid: 44b658b4025d2704e882c74468c5423e, type: 2}
