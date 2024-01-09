@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using unity1week202312.Common;
+using unity1week202312.MainGame;
 
 namespace unity1week202312.State {
     public enum TransitionCondition {
@@ -15,6 +16,7 @@ namespace unity1week202312.State {
         LoadTitleScene,
         LoadMainScene,
         BackTitleScene,
+        StartMainGame,
         None
     }
     public class StateTransition : IDisposable {
@@ -25,6 +27,7 @@ namespace unity1week202312.State {
         private Dictionary<TransitionCondition, Func<UniTask>> _conditionDic;
         private Dictionary<TransitionFunction, Func<UniTask>> _functionDic;
         private SceneTransitionFactory _sceneTransitionFactory;
+        private PlayerViewFactory _playerViewFactory;
 
         /**
         * SceneTransitionFactoryから生成. 指定された条件を満たすと指定された処理を実行する
@@ -33,7 +36,8 @@ namespace unity1week202312.State {
             CancellationToken token,
             TransitionCondition conditionKey,
             TransitionFunction funcionKey,
-            SceneTransitionFactory sceneTransitionFactory
+            SceneTransitionFactory sceneTransitionFactory,
+            PlayerViewFactory playerViewFactory
         ) {
             _token = token;
             _conditionDic = new() {
@@ -44,11 +48,13 @@ namespace unity1week202312.State {
                 { TransitionFunction.LoadTitleScene, () => LoadSceneFrom(SceneName.Initialize) },
                 { TransitionFunction.LoadMainScene, () => LoadSceneFrom(SceneName.Title) },
                 { TransitionFunction.BackTitleScene, () => LoadSceneFrom(SceneName.Main)},
+                { TransitionFunction.StartMainGame, () => InitializeMainGame() },
                 { TransitionFunction.None, () => UniTask.CompletedTask }
             };
             _conditionKey = conditionKey;
             _functionKey = funcionKey;
             _sceneTransitionFactory = sceneTransitionFactory;
+            _playerViewFactory = playerViewFactory;
         }
 
         public async UniTask Execute() {
@@ -68,6 +74,11 @@ namespace unity1week202312.State {
         {
             SceneTransition transition = _sceneTransitionFactory.Create(fromScene);
             transition.RegiseterTransitions();
+            return UniTask.CompletedTask;
+        }
+
+        private UniTask InitializeMainGame() {
+            _playerViewFactory.Create();
             return UniTask.CompletedTask;
         }
 

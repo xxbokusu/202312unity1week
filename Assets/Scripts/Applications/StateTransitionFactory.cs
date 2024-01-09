@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using unity1week202312.Common;
-using Cysharp.Threading.Tasks;
+using unity1week202312.MainGame;
 
 namespace unity1week202312.State
 {
@@ -23,15 +22,56 @@ namespace unity1week202312.State
 
         public StateTransitionFactory(
             CancellationToken token,
-            SceneTransitionFactory sceneTransitionFactory
+            SceneTransitionFactory sceneTransitionFactory,
+            PlayerViewFactory playerViewFactory
         ) {
             _token = token;
             _stateTransitionDic = new() {
-                { GameState.Initializing, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.LoadTitleScene, sceneTransitionFactory) },
-                { GameState.TitleShowing, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.LoadMainScene, sceneTransitionFactory) },
-                { GameState.MainLoading, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.None, sceneTransitionFactory) },
-                { GameState.MainPlaying, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.None, sceneTransitionFactory) },
-                { GameState.ResultShowing, new StateTransition(CancellationToken.None, TransitionCondition.WaitClick, TransitionFunction.BackTitleScene, sceneTransitionFactory) },
+                { 
+                    GameState.Initializing, new StateTransition(
+                        CancellationToken.None,
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.LoadTitleScene, 
+                        sceneTransitionFactory,
+                        playerViewFactory
+                    ) 
+                },
+                { 
+                    GameState.TitleShowing, new StateTransition(
+                        CancellationToken.None, 
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.LoadMainScene, 
+                        sceneTransitionFactory,
+                        playerViewFactory
+                    )
+                },
+                { 
+                    GameState.MainLoading, new StateTransition(
+                        CancellationToken.None, 
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.StartMainGame, 
+                        sceneTransitionFactory,
+                        playerViewFactory
+                    )
+                },
+                { 
+                    GameState.MainPlaying, new StateTransition(
+                        CancellationToken.None, 
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.None, 
+                        sceneTransitionFactory,
+                        playerViewFactory
+                    ) 
+                },
+                { 
+                    GameState.ResultShowing, new StateTransition(
+                        CancellationToken.None, 
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.BackTitleScene, 
+                        sceneTransitionFactory,
+                        playerViewFactory
+                    ) 
+                },
             };
 
             _currentGameState = GameState.Initializing;
