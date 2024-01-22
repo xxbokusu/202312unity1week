@@ -1,4 +1,5 @@
 using UnityEngine;
+using unity1week202312.Common;
 
 namespace unity1week202312.MainGame
 {

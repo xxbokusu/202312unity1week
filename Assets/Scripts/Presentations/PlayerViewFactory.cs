@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace unity1week202312.MainGame
 {
-    public class PlayerViewFactory : IPlayerViewFactory
+    public class PlayerViewFactory : IObjectViewFactory
     {
         private readonly ObjectViewPrefabData _objectViewPrefabData;
         public PlayerViewFactory(ObjectViewPrefabData objectViewPrefabData)
