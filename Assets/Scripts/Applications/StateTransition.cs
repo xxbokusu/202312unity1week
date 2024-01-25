@@ -69,7 +69,10 @@ namespace unity1week202312.State {
         }
 
         private async UniTask WaitClick() {
-            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: _token);
+            // 左クリック or Spaceキーで進む
+            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)
+                || Input.GetKeyDown(KeyCode.Space)
+            , cancellationToken: _token);
         }
 
         private async UniTask WaitTime(float time) {

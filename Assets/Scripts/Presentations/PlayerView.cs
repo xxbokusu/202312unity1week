@@ -37,18 +37,17 @@ namespace unity1week202312.MainGame
 
         void Update()
         {
-            if (_direction == Direction.Right)
+            // 矢印キー/wasdキーで移動
+            var dx = Input.GetAxisRaw("Horizontal");
+            var dy = Input.GetAxisRaw("Vertical");
+            // 移動方向に応じて向きを変える
+            if (dx != 0 || dy != 0)
             {
-                // 既に右を向いているなら何もしない
-                if (transform.rotation.z >= 180) return;
-                SetRotation(transform.rotation.z + 1);
+                var rad = Mathf.Atan2(dy, dx);
+                var degree = rad * Mathf.Rad2Deg;
+                SetRotation(degree);
             }
-            else
-            {
-                // 既に左を向いているなら何もしない
-                if (transform.rotation.z <= 0) return;
-                SetRotation(transform.rotation.z - 1);
-            }
+            transform.position += new Vector3(dx, dy, 0) * 0.1f;
         }
 
         public void Dispose()
