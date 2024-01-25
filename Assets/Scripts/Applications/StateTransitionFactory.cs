@@ -2,17 +2,19 @@ using System.Collections.Generic;
 using System.Threading;
 using unity1week202312.Common;
 using unity1week202312.MainGame;
+using unity1week202312.Title;
 
 namespace unity1week202312.State
 {
     public class StateTransitionFactory
     {
         public Dictionary<GameState, GameState> _statePathDic = new() {
-            { GameState.Initializing, GameState.TitleShowing },
+            { GameState.Initializing, GameState.TitleLoading },
+            { GameState.TitleLoading, GameState.TitleShowing },
             { GameState.TitleShowing, GameState.MainLoading },
             { GameState.MainLoading, GameState.MainPlaying },
             { GameState.MainPlaying, GameState.ResultShowing },
-            { GameState.ResultShowing, GameState.TitleShowing },
+            { GameState.ResultShowing, GameState.TitleLoading },
         };
 
         private CancellationToken _token;
@@ -23,6 +25,7 @@ namespace unity1week202312.State
         public StateTransitionFactory(
             CancellationToken token,
             SceneTransitionFactory sceneTransitionFactory,
+            TitleCharacterViewFactory titleViewFactory,
             PlayerViewFactory playerViewFactory
         ) {
             _token = token;
@@ -33,6 +36,17 @@ namespace unity1week202312.State
                         TransitionCondition.WaitClick, 
                         TransitionFunction.LoadTitleScene, 
                         sceneTransitionFactory,
+                        titleViewFactory,
+                        playerViewFactory
+                    ) 
+                },
+                { 
+                    GameState.TitleLoading, new StateTransition(
+                        CancellationToken.None, 
+                        TransitionCondition.WaitClick, 
+                        TransitionFunction.ShowTitleScene, 
+                        sceneTransitionFactory,
+                        titleViewFactory,
                         playerViewFactory
                     ) 
                 },
@@ -42,6 +56,7 @@ namespace unity1week202312.State
                         TransitionCondition.WaitClick, 
                         TransitionFunction.LoadMainScene, 
                         sceneTransitionFactory,
+                        titleViewFactory,
                         playerViewFactory
                     )
                 },
@@ -51,6 +66,7 @@ namespace unity1week202312.State
                         TransitionCondition.WaitClick, 
                         TransitionFunction.StartMainGame, 
                         sceneTransitionFactory,
+                        titleViewFactory,
                         playerViewFactory
                     )
                 },
@@ -60,6 +76,7 @@ namespace unity1week202312.State
                         TransitionCondition.WaitClick, 
                         TransitionFunction.None, 
                         sceneTransitionFactory,
+                        titleViewFactory,
                         playerViewFactory
                     ) 
                 },
@@ -69,6 +86,7 @@ namespace unity1week202312.State
                         TransitionCondition.WaitClick, 
                         TransitionFunction.BackTitleScene, 
                         sceneTransitionFactory,
+                        titleViewFactory,
                         playerViewFactory
                     ) 
                 },

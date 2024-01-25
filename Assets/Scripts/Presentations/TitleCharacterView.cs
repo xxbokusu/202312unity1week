@@ -10,14 +10,15 @@ namespace unity1week202312.Title {
         }
 
         public void Initialize() {
+            transform.position = new Vector3(0, 0, 0);
         }
 
         public void SetPosition(float x, float y) {
-            transform.position = new UnityEngine.Vector3(x, y, 0);
+            transform.position = new Vector3(x, y, 0);
         }
 
         public void SetRotation(float angle) {
-            transform.rotation = UnityEngine.Quaternion.Euler(0, 0, angle);
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 }

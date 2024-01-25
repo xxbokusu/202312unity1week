@@ -15,7 +15,7 @@ namespace unity1week202312.Common {
             SceneTransitionFactory scenePresenter = new(this.GetCancellationTokenOnDestroy());
             PlayerViewFactory playerViewFactory = new(_playerViewPrefabData);
             TitleCharacterViewFactory titleCharacterViewFactory = new(_playerViewPrefabData);
-            StateTransitionFactory stateTransitionFactory = new(this.GetCancellationTokenOnDestroy(), scenePresenter, playerViewFactory);
+            StateTransitionFactory stateTransitionFactory = new(this.GetCancellationTokenOnDestroy(), scenePresenter, titleCharacterViewFactory, playerViewFactory);
 
             builder.RegisterInstance(scenePresenter).As<SceneTransitionFactory>();
             builder.RegisterInstance(stateTransitionFactory).As<StateTransitionFactory>();

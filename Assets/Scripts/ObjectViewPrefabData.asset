@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ObjectViewPrefabData
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 5252252643986334453, guid: 05688303c5524304486b891f88af03b5, type: 3}
+  _titleCharacterPrefab: {fileID: 1048574774982117970, guid: 0b5d5695b7d89624094f11f9bda96c8d, type: 3}

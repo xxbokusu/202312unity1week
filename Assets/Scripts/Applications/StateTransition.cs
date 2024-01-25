@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using unity1week202312.Common;
 using unity1week202312.MainGame;
+using unity1week202312.Title;
 
 namespace unity1week202312.State {
     public enum TransitionCondition {
@@ -17,6 +18,7 @@ namespace unity1week202312.State {
         LoadMainScene,
         BackTitleScene,
         StartMainGame,
+        ShowTitleScene,
         None
     }
     public class StateTransition : IDisposable {
@@ -27,6 +29,7 @@ namespace unity1week202312.State {
         private Dictionary<TransitionCondition, Func<UniTask>> _conditionDic;
         private Dictionary<TransitionFunction, Func<UniTask>> _functionDic;
         private SceneTransitionFactory _sceneTransitionFactory;
+        private TitleCharacterViewFactory _titleViewFactory;
         private PlayerViewFactory _playerViewFactory;
 
         /**
@@ -37,6 +40,7 @@ namespace unity1week202312.State {
             TransitionCondition conditionKey,
             TransitionFunction funcionKey,
             SceneTransitionFactory sceneTransitionFactory,
+            TitleCharacterViewFactory titleViewFactory,
             PlayerViewFactory playerViewFactory
         ) {
             _token = token;
@@ -46,6 +50,7 @@ namespace unity1week202312.State {
             };
             _functionDic = new() {
                 { TransitionFunction.LoadTitleScene, () => LoadSceneFrom(SceneName.Initialize) },
+                { TransitionFunction.ShowTitleScene, () => InitializeTitle()},
                 { TransitionFunction.LoadMainScene, () => LoadSceneFrom(SceneName.Title) },
                 { TransitionFunction.BackTitleScene, () => LoadSceneFrom(SceneName.Main)},
                 { TransitionFunction.StartMainGame, () => InitializeMainGame() },
@@ -54,6 +59,7 @@ namespace unity1week202312.State {
             _conditionKey = conditionKey;
             _functionKey = funcionKey;
             _sceneTransitionFactory = sceneTransitionFactory;
+            _titleViewFactory = titleViewFactory;
             _playerViewFactory = playerViewFactory;
         }
 
@@ -74,6 +80,11 @@ namespace unity1week202312.State {
         {
             SceneTransition transition = _sceneTransitionFactory.Create(fromScene);
             transition.RegiseterTransitions();
+            return UniTask.CompletedTask;
+        }
+
+        private UniTask InitializeTitle() {
+            _titleViewFactory.Create();
             return UniTask.CompletedTask;
         }
 

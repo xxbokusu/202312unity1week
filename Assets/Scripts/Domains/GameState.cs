@@ -8,6 +8,7 @@ namespace unity1week202312.State
      */
     public enum GameState {
         Initializing,
+        TitleLoading,
         TitleShowing,
         MainLoading,
         MainPlaying,
